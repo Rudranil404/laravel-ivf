@@ -10,19 +10,84 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
+use Mpdf\Laravel\Facade as PDF;
 
+
+    
 class ClinicController extends Controller
 {
     public function index()
     {
-        // Fetch clinics with their branches and contacts for the list view
         $clinics = Clinic::with(['branches', 'contacts', 'users'])->latest()->get();
         return view('superadmin.clinics.index', compact('clinics'));
     }
 
+    // NEW: Show method to view a specific clinic
+    public function show($id)
+    {
+        $clinic = Clinic::with(['branches.contacts', 'contacts', 'users'])->findOrFail($id);
+        return view('superadmin.clinics.show', compact('clinic'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $clinic = Clinic::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:clinics,email,' . $clinic->id,
+            'max_branches' => 'required|integer|min:0',
+            'is_active' => 'required|boolean',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $clinic->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'address_line_1' => $request->address_line_1,
+                'address_line_2' => $request->address_line_2,
+                'country' => $request->country,
+                'state' => $request->state,
+                'zip_code' => $request->zip_code,
+                'max_branches' => $request->max_branches,
+                'is_active' => $request->is_active,
+                'exp_date' => $request->exp_date,
+                'first_warning_date' => $request->first_warning_date,
+                'second_warning_date' => $request->second_warning_date,
+            ]);
+
+            // Sync Contacts (Simple approach: delete old and re-add)
+            if ($request->has('contacts')) {
+                $clinic->contacts()->delete();
+                foreach ($request->contacts as $contact) {
+                    if (!empty($contact['phone'])) {
+                        $clinic->contacts()->create($contact);
+                    }
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('superadmin.clinics.index')->with('success', 'Clinic updated successfully.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Update failed: ' . $e->getMessage()]);
+        }
+    }
+    public function print($id)
+    {
+        $clinic = Clinic::with(['branches.contacts', 'contacts', 'users'])->findOrFail($id);
+
+        // This package uses the same loadView method
+        $pdf = PDF::loadView('superadmin.clinics.print', ['clinic' => $clinic]);
+
+        return $pdf->stream($clinic->customer_id . '_details.pdf');
+    }
+
     public function store(Request $request)
     {
-        // 1. Validate Core Data
         $request->validate([
             'clinic_name' => 'required|string|max:255',
             'admin_email' => 'required|email|unique:users,email',
@@ -34,7 +99,6 @@ class ClinicController extends Controller
         DB::beginTransaction();
 
         try {
-            // 2. Create the Clinic
             $clinic = Clinic::create([
                 'name' => $request->clinic_name,
                 'email' => $request->admin_email,
@@ -51,7 +115,6 @@ class ClinicController extends Controller
                 'second_warning_date' => $request->second_warning_date,
             ]);
 
-            // 3. Create Dynamic Clinic Contacts
             if ($request->has('clinic_contacts')) {
                 foreach ($request->clinic_contacts as $contact) {
                     if (!empty($contact['phone'])) {
@@ -64,7 +127,6 @@ class ClinicController extends Controller
                 }
             }
 
-            // 4. Create Branch (If "Has Branch" is checked)
             if ($request->has_branch == '1') {
                 $branch = $clinic->branches()->create([
                     'branch_cust_id' => 'BR-' . strtoupper(uniqid()),
@@ -76,7 +138,6 @@ class ClinicController extends Controller
                     'zip_code' => $request->branch_zip_code,
                 ]);
 
-                // Create Dynamic Branch Contacts
                 if ($request->has('branch_contacts')) {
                     foreach ($request->branch_contacts as $bContact) {
                         if (!empty($bContact['phone'])) {
@@ -90,7 +151,6 @@ class ClinicController extends Controller
                 }
             }
 
-            // 5. Create the Clinic Admin User
             $clinicAdmin = User::create([
                 'name' => 'Clinic Admin',
                 'email' => $request->admin_email,
@@ -110,4 +170,5 @@ class ClinicController extends Controller
             return redirect()->back()->withErrors(['error' => 'Registration failed: ' . $e->getMessage()]);
         }
     }
+    
 }

@@ -7,7 +7,6 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\SuperAdmin\ClinicController;
 
-// Smart Root Route
 Route::get('/', function () {
     if (Auth::check()) {
         $user = Auth::user();
@@ -18,15 +17,12 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Public Auth Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-// Authenticated Routes (Must be logged in)
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    // --- SIMPLE CHANGE PASSWORD ROUTES ---
     Route::get('/change-password', [PasswordController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('/change-password', [PasswordController::class, 'updateCurrentPassword'])->name('password.update.current');
     
@@ -34,9 +30,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:Super Admin'])->prefix('superadmin')->name('superadmin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         
-        // Clinic Management Routes (Index handles the list & modal, Store handles the save)
         Route::get('/clinics', [ClinicController::class, 'index'])->name('clinics.index');
         Route::post('/clinics', [ClinicController::class, 'store'])->name('clinics.store');
+        Route::get('/clinics/{clinic}', [ClinicController::class, 'show'])->name('clinics.show'); // NEW ROUTE
+        Route::put('/clinics/{clinic}', [ClinicController::class, 'update'])->name('clinics.update');
+        Route::get('/clinics/{clinic}/print', [ClinicController::class, 'print'])->name('clinics.print');
     });
 
     // --- CLINIC ADMIN ROUTES ---
@@ -44,6 +42,5 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', function() { return 'Clinic Admin Dashboard'; })->name('dashboard');
     });
 
-    // --- CLINIC USER ROUTES ---
     Route::get('/user/dashboard', function() { return 'Clinic User Dashboard'; })->name('user.dashboard');
 });

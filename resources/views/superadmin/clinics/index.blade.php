@@ -11,62 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: linear-gradient(135deg, #f0f4f8 0%, #e8edf3 50%, #dbe4ed 100%);
-            background-attachment: fixed;
-        }
-        
-        /* Glass Sidebar */
-        .glass-sidebar {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-right: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 4px 0 24px rgba(57, 87, 150, 0.05);
-        }
-
-        /* Bento Box Glass Cards */
-        .bento-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 10px 30px rgba(57, 87, 150, 0.05);
-            border-radius: 1.5rem;
-        }
-
-        /* Modal Glass */
-        .modal-glass {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 25px 50px -12px rgba(57, 87, 150, 0.25);
-        }
-
-        /* Form Inputs */
-        .input-field {
-            width: 100%;
-            padding: 0.625rem 1rem;
-            border-radius: 0.75rem;
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            font-size: 0.875rem;
-            color: #1e293b;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .input-field:focus {
-            border-color: #395796;
-            box-shadow: 0 0 0 3px rgba(57, 87, 150, 0.1);
-            background-color: #ffffff;
-        }
-
-        /* Custom Scrollbar */
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0f4f8 0%, #e8edf3 50%, #dbe4ed 100%); background-attachment: fixed; }
+        .glass-sidebar { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-right: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 4px 0 24px rgba(57, 87, 150, 0.05); }
+        .bento-card { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 10px 30px rgba(57, 87, 150, 0.05); border-radius: 1.5rem; }
+        .modal-glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 25px 50px -12px rgba(57, 87, 150, 0.25); }
+        .input-field { width: 100%; padding: 0.625rem 1rem; border-radius: 0.75rem; background-color: #f8fafc; border: 1px solid #e2e8f0; font-size: 0.875rem; color: #1e293b; outline: none; transition: all 0.2s; }
+        .input-field:focus { border-color: #395796; box-shadow: 0 0 0 3px rgba(57, 87, 150, 0.1); background-color: #ffffff; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden text-slate-800" x-data="clinicForm()">
@@ -76,30 +31,25 @@
             <img src="{{ asset('assets/images/logo.png') }}" alt="IVF Logo" class="w-8 h-8 object-contain mr-3 mix-blend-multiply">
             <span class="text-xl font-bold text-[#395796] tracking-wide">IVF Portal</span>
         </div>
-
         <div class="px-8 py-6">
             <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Logged in as</p>
             <p class="text-sm font-semibold text-slate-800">{{ auth()->user()->name }}</p>
             <p class="text-xs text-[#E97F95] font-medium">Super Administrator</p>
         </div>
-
         <nav class="flex-1 px-4 space-y-2 overflow-y-auto">
             <a href="{{ route('superadmin.dashboard') }}" class="flex items-center px-4 py-3.5 text-slate-600 hover:bg-[#395796]/10 hover:text-[#395796] rounded-xl transition-all font-medium group">
                 <svg class="w-5 h-5 mr-3 text-slate-400 group-hover:text-[#395796] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 Dashboard
             </a>
-            
             <a href="{{ route('superadmin.clinics.index') }}" class="flex items-center px-4 py-3.5 bg-[#395796] text-white rounded-xl shadow-md shadow-[#395796]/30 font-semibold">
                 <svg class="w-5 h-5 mr-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                 Clinic Directory
             </a>
-            
             <a href="{{ route('password.change') }}" class="flex items-center px-4 py-3.5 text-slate-600 hover:bg-[#395796]/10 hover:text-[#395796] rounded-xl transition-all font-medium group">
                 <svg class="w-5 h-5 mr-3 text-slate-400 group-hover:text-[#395796] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 Security Settings
             </a>
         </nav>
-
         <div class="p-4 border-t border-white/60">
             <form method="POST" action="{{ route('logout') }}" class="m-0">
                 @csrf
@@ -112,12 +62,9 @@
     </aside>
 
     <main class="flex-1 h-screen overflow-y-auto p-8 relative">
-
         <div class="flex flex-col md:flex-row justify-between items-end mb-8">
             <div>
-                <h1 class="text-4xl font-light text-slate-900 tracking-tight">
-                    Clinic <span class="font-semibold text-[#395796]">Management</span>
-                </h1>
+                <h1 class="text-4xl font-light text-slate-900 tracking-tight">Clinic <span class="font-semibold text-[#395796]">Management</span></h1>
                 <p class="text-sm text-slate-500 mt-2">Manage all registered environments, branches, and system AMC statuses.</p>
             </div>
             <div class="mt-4 md:mt-0">
@@ -184,9 +131,12 @@
                                 <td class="py-5 text-sm font-medium text-slate-600">
                                     {{ $clinic->exp_date ? \Carbon\Carbon::parse($clinic->exp_date)->format('M d, Y') : 'N/A' }}
                                 </td>
-                                <td class="py-5 text-right">
-                                    <button class="opacity-0 group-hover:opacity-100 text-[#395796] hover:text-[#1e2e4f] text-xs font-bold transition-all bg-white px-4 py-2 border border-slate-200 rounded-lg shadow-sm">
-                                        MANAGE
+                                <td class="py-5 text-right space-x-2">
+                                    <a href="{{ route('superadmin.clinics.show', $clinic->id) }}" class="opacity-0 group-hover:opacity-100 text-[#395796] hover:text-[#1e2e4f] text-xs font-bold transition-all bg-white px-4 py-2 border border-slate-200 rounded-lg shadow-sm inline-block">
+                                        VIEW
+                                    </a>
+                                    <button @click="openEditModal({{ $clinic->toJson() }}, {{ $clinic->contacts->toJson() }})" class="opacity-0 group-hover:opacity-100 text-[#E97F95] hover:text-[#e75a7a] text-xs font-bold transition-all bg-white px-4 py-2 border border-slate-200 rounded-lg shadow-sm">
+                                        EDIT
                                     </button>
                                 </td>
                             </tr>
@@ -198,7 +148,6 @@
                                             <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                                         </div>
                                         <p class="text-lg font-bold text-slate-700">No clinics registered yet.</p>
-                                        <p class="text-sm mt-1">Use the button above to add the first environment.</p>
                                     </div>
                                 </td>
                             </tr>
@@ -207,22 +156,11 @@
                 </table>
             </div>
         </div>
-
     </main>
 
-    <div x-show="openModal" class="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overflow-x-hidden p-4" x-cloak style="display: none;">
-        
-        <div x-show="openModal" x-transition.opacity class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" @click="openModal = false"></div>
-
-        <div x-show="openModal" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 translate-y-8 scale-95"
-             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-             x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-             class="relative w-full max-w-5xl modal-glass rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            
+    <div x-show="openModal" class="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto p-4" x-cloak>
+        <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" @click="openModal = false"></div>
+        <div class="relative w-full max-w-5xl modal-glass rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-8 py-5 border-b border-slate-200 flex justify-between items-center bg-white/50">
                 <h2 class="text-xl font-bold text-[#395796] flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
@@ -232,189 +170,70 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-
             <div class="p-8 overflow-y-auto custom-scrollbar">
                 <form id="clinicForm" action="{{ route('superadmin.clinics.store') }}" method="POST" class="space-y-8">
                     @csrf
-
                     <div>
                         <h3 class="text-sm font-bold text-[#395796] uppercase tracking-widest mb-4 border-b border-slate-200/60 pb-2">Clinic Information</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Clinic Name <span class="text-red-500">*</span></label>
-                                <input type="text" name="clinic_name" required class="input-field" placeholder="E.g., Hope Fertility Center">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Clinic AMC Status <span class="text-red-500">*</span></label>
-                                <select name="amc_status" class="input-field">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Address Line 1 <span class="text-red-500">*</span></label>
-                                <input type="text" name="address_line_1" required class="input-field" placeholder="123 Medical Plaza">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Address Line 2</label>
-                                <input type="text" name="address_line_2" class="input-field" placeholder="Suite / Floor (Optional)">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Country <span class="text-red-500">*</span></label>
-                                <select name="country" required class="input-field">
-                                    <option value="US">United States</option>
-                                    <option value="UK">United Kingdom</option>
-                                    <option value="IN">India</option>
-                                    <option value="AU">Australia</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">State/Province <span class="text-red-500">*</span></label>
-                                <input type="text" name="state" required class="input-field" placeholder="State">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">ZIP/Postal Code <span class="text-red-500">*</span></label>
-                                <input type="text" name="zip_code" required class="input-field" placeholder="10001">
-                            </div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Clinic Name <span class="text-red-500">*</span></label><input type="text" name="clinic_name" required class="input-field"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Clinic AMC Status <span class="text-red-500">*</span></label><select name="amc_status" class="input-field"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+                            <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Address Line 1 <span class="text-red-500">*</span></label><input type="text" name="address_line_1" required class="input-field"></div>
+                            <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Address Line 2</label><input type="text" name="address_line_2" class="input-field"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Country <span class="text-red-500">*</span></label><select name="country" required class="input-field"><option value="US">United States</option><option value="UK">United Kingdom</option><option value="IN">India</option></select></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">State <span class="text-red-500">*</span></label><input type="text" name="state" required class="input-field"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">ZIP/Postal Code <span class="text-red-500">*</span></label><input type="text" name="zip_code" required class="input-field"></div>
                         </div>
                     </div>
-
                     <div>
                         <div class="flex justify-between items-center border-b border-slate-200/60 pb-2 mb-4">
-                            <h3 class="text-sm font-bold text-[#395796] uppercase tracking-widest">Clinic Contact Numbers</h3>
-                            <button type="button" @click="addContact('clinic')" class="text-xs font-bold text-[#395796] bg-[#395796]/10 px-3 py-1.5 rounded-lg hover:bg-[#395796]/20 transition-colors shadow-sm">+ Add Contact</button>
+                            <h3 class="text-sm font-bold text-[#395796] uppercase tracking-widest">Contact Numbers</h3>
+                            <button type="button" @click="addContact('clinic')" class="text-xs font-bold text-[#395796] bg-[#395796]/10 px-3 py-1.5 rounded-lg">+ Add</button>
                         </div>
-                        
                         <div class="space-y-3">
                             <template x-for="(contact, index) in clinicContacts" :key="contact.id">
                                 <div class="flex gap-3 items-end bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
-                                    <div class="flex-1">
-                                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Contact Name</label>
-                                        <input type="text" :name="'clinic_contacts['+index+'][name]'" class="input-field py-2 mt-1" placeholder="John Doe">
-                                    </div>
-                                    <div class="w-1/4">
-                                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Position</label>
-                                        <select :name="'clinic_contacts['+index+'][position]'" class="input-field py-2 mt-1">
-                                            <option value="Reception">Reception</option>
-                                            <option value="Doctor">Doctor</option>
-                                            <option value="Embryologist">Embryologist</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="flex-1">
-                                        <label class="block text-[10px] font-bold text-slate-500 uppercase">Phone No.</label>
-                                        <input type="text" :name="'clinic_contacts['+index+'][phone]'" class="input-field py-2 mt-1" placeholder="+1 234 567 8900">
-                                    </div>
-                                    <button type="button" @click="removeContact('clinic', index)" x-show="clinicContacts.length > 1" class="p-2 mb-0.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
+                                    <div class="flex-1"><label class="block text-[10px] font-bold text-slate-500 uppercase">Name</label><input type="text" :name="'clinic_contacts['+index+'][name]'" class="input-field py-2 mt-1"></div>
+                                    <div class="w-1/4"><label class="block text-[10px] font-bold text-slate-500 uppercase">Position</label><select :name="'clinic_contacts['+index+'][position]'" class="input-field py-2 mt-1"><option value="Reception">Reception</option><option value="Doctor">Doctor</option></select></div>
+                                    <div class="flex-1"><label class="block text-[10px] font-bold text-slate-500 uppercase">Phone No.</label><input type="text" :name="'clinic_contacts['+index+'][phone]'" class="input-field py-2 mt-1"></div>
+                                    <button type="button" @click="removeContact('clinic', index)" x-show="clinicContacts.length > 1" class="p-2 mb-0.5 text-red-400 hover:text-red-600 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                                 </div>
                             </template>
                         </div>
                     </div>
-
                     <div>
-                        <h3 class="text-sm font-bold text-[#395796] uppercase tracking-widest mb-4 border-b border-slate-200/60 pb-2">System & Credentials</h3>
+                        <h3 class="text-sm font-bold text-[#395796] uppercase tracking-widest mb-4 border-b border-slate-200/60 pb-2">Credentials</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Email ID (Login) <span class="text-red-500">*</span></label>
-                                <input type="email" name="admin_email" required class="input-field" placeholder="admin@clinic.com">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Password <span class="text-red-500">*</span></label>
-                                <input type="password" name="admin_password" required class="input-field" placeholder="••••••••">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Confirm Password <span class="text-red-500">*</span></label>
-                                <input type="password" name="admin_password_confirmation" required class="input-field" placeholder="••••••••">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Max Branches Allowed <span class="text-red-500">*</span></label>
-                                <input type="number" name="max_branches" value="1" min="0" class="input-field">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Subscription Expiry Date</label>
-                                <input type="date" name="exp_date" class="input-field text-slate-500">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">1st Warning Date</label>
-                                <input type="date" name="first_warning_date" class="input-field text-slate-500">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">2nd Warning Date</label>
-                                <input type="date" name="second_warning_date" class="input-field text-slate-500">
-                            </div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Email <span class="text-red-500">*</span></label><input type="email" name="admin_email" required class="input-field"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Password <span class="text-red-500">*</span></label><input type="password" name="admin_password" required class="input-field"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Confirm <span class="text-red-500">*</span></label><input type="password" name="admin_password_confirmation" required class="input-field"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Max Branches</label><input type="number" name="max_branches" value="1" min="0" class="input-field"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">Exp Date</label><input type="date" name="exp_date" class="input-field text-slate-500"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">1st Warning</label><input type="date" name="first_warning_date" class="input-field text-slate-500"></div>
+                            <div><label class="block text-xs font-semibold text-slate-600 mb-1">2nd Warning</label><input type="date" name="second_warning_date" class="input-field text-slate-500"></div>
                         </div>
                     </div>
-
                     <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
-                        <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" name="has_branch" value="1" x-model="hasBranch" class="w-5 h-5 text-[#395796] rounded border-gray-300 focus:ring-[#395796]">
-                            <span class="text-sm font-bold text-[#395796]">Register First Branch Now?</span>
-                        </label>
-
+                        <label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" name="has_branch" value="1" x-model="hasBranch" class="w-5 h-5 text-[#395796] rounded border-gray-300 focus:ring-[#395796]"><span class="text-sm font-bold text-[#395796]">Register Branch Now?</span></label>
                         <div x-show="hasBranch" x-collapse class="mt-6 pt-6 border-t border-blue-200/60 space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div class="md:col-span-2">
-                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Branch Name <span class="text-red-500" x-show="hasBranch">*</span></label>
-                                    <input type="text" name="branch_name" :required="hasBranch" class="input-field" placeholder="E.g., Downtown Branch">
-                                </div>
-                                <div class="md:col-span-2">
-                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Branch Address Line 1 <span class="text-red-500" x-show="hasBranch">*</span></label>
-                                    <input type="text" name="branch_address_line_1" :required="hasBranch" class="input-field" placeholder="456 Branch St">
-                                </div>
-                                <div class="md:col-span-2">
-                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Branch Address Line 2</label>
-                                    <input type="text" name="branch_address_line_2" class="input-field">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Country <span class="text-red-500" x-show="hasBranch">*</span></label>
-                                    <select name="branch_country" :required="hasBranch" class="input-field">
-                                        <option value="US">United States</option>
-                                        <option value="UK">United Kingdom</option>
-                                        <option value="IN">India</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-600 mb-1">State/Province <span class="text-red-500" x-show="hasBranch">*</span></label>
-                                    <input type="text" name="branch_state" :required="hasBranch" class="input-field">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-600 mb-1">ZIP/Postal Code <span class="text-red-500" x-show="hasBranch">*</span></label>
-                                    <input type="text" name="branch_zip_code" :required="hasBranch" class="input-field">
-                                </div>
+                                <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Branch Name <span class="text-red-500" x-show="hasBranch">*</span></label><input type="text" name="branch_name" :required="hasBranch" class="input-field"></div>
+                                <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Address Line 1 <span class="text-red-500" x-show="hasBranch">*</span></label><input type="text" name="branch_address_line_1" :required="hasBranch" class="input-field"></div>
+                                <div><label class="block text-xs font-semibold text-slate-600 mb-1">Country <span class="text-red-500" x-show="hasBranch">*</span></label><select name="branch_country" :required="hasBranch" class="input-field"><option value="US">US</option><option value="IN">IN</option></select></div>
+                                <div><label class="block text-xs font-semibold text-slate-600 mb-1">State <span class="text-red-500" x-show="hasBranch">*</span></label><input type="text" name="branch_state" :required="hasBranch" class="input-field"></div>
+                                <div><label class="block text-xs font-semibold text-slate-600 mb-1">ZIP <span class="text-red-500" x-show="hasBranch">*</span></label><input type="text" name="branch_zip_code" :required="hasBranch" class="input-field"></div>
                             </div>
-
                             <div>
                                 <div class="flex justify-between items-center border-b border-blue-200/60 pb-2 mb-4">
                                     <h3 class="text-xs font-bold text-[#395796] uppercase">Branch Contacts</h3>
-                                    <button type="button" @click="addContact('branch')" class="text-[10px] font-bold text-[#E97F95] bg-[#E97F95]/10 px-3 py-1.5 rounded-lg hover:bg-[#E97F95]/20 shadow-sm">+ Add Contact</button>
+                                    <button type="button" @click="addContact('branch')" class="text-[10px] font-bold text-[#E97F95] bg-[#E97F95]/10 px-3 py-1.5 rounded-lg">+ Add</button>
                                 </div>
-                                
                                 <div class="space-y-3">
                                     <template x-for="(contact, index) in branchContacts" :key="contact.id">
                                         <div class="flex gap-3 items-end bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
-                                            <div class="flex-1">
-                                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Name</label>
-                                                <input type="text" :name="'branch_contacts['+index+'][name]'" class="input-field py-2 mt-1" placeholder="Jane Doe">
-                                            </div>
-                                            <div class="w-1/4">
-                                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Position</label>
-                                                <select :name="'branch_contacts['+index+'][position]'" class="input-field py-2 mt-1">
-                                                    <option value="Branch Manager">Manager</option>
-                                                    <option value="Reception">Reception</option>
-                                                    <option value="Doctor">Doctor</option>
-                                                </select>
-                                            </div>
-                                            <div class="flex-1">
-                                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Phone No.</label>
-                                                <input type="text" :name="'branch_contacts['+index+'][phone]'" class="input-field py-2 mt-1" placeholder="+1 234 567 8900">
-                                            </div>
-                                            <button type="button" @click="removeContact('branch', index)" x-show="branchContacts.length > 1" class="p-2 mb-0.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-100">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            </button>
+                                            <div class="flex-1"><label class="block text-[10px] font-bold text-slate-500 uppercase">Name</label><input type="text" :name="'branch_contacts['+index+'][name]'" class="input-field py-2 mt-1"></div>
+                                            <div class="flex-1"><label class="block text-[10px] font-bold text-slate-500 uppercase">Phone No.</label><input type="text" :name="'branch_contacts['+index+'][phone]'" class="input-field py-2 mt-1"></div>
+                                            <button type="button" @click="removeContact('branch', index)" x-show="branchContacts.length > 1" class="p-2 mb-0.5 text-red-400 hover:text-red-600 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                                         </div>
                                     </template>
                                 </div>
@@ -423,40 +242,93 @@
                     </div>
                 </form>
             </div>
-
             <div class="px-8 py-5 border-t border-slate-200 bg-slate-50/80 flex justify-end space-x-4">
-                <button type="button" @click="openModal = false" class="px-6 py-2.5 bg-white text-slate-600 font-bold text-sm rounded-xl border border-slate-300 hover:bg-slate-100 transition-all shadow-sm">
-                    Cancel
-                </button>
-                <button type="submit" form="clinicForm" class="px-8 py-2.5 bg-[#395796] text-white font-bold text-sm rounded-xl hover:bg-[#2a3d66] transition-all shadow-lg shadow-[#395796]/30">
-                    Save Clinic Setup
-                </button>
+                <button type="button" @click="openModal = false" class="px-6 py-2.5 bg-white text-slate-600 font-bold text-sm rounded-xl border border-slate-300 hover:bg-slate-100 transition-all shadow-sm">Cancel</button>
+                <button type="submit" form="clinicForm" class="px-8 py-2.5 bg-[#395796] text-white font-bold text-sm rounded-xl hover:bg-[#2a3d66] transition-all shadow-lg shadow-[#395796]/30">Save Clinic</button>
             </div>
-
         </div>
     </div>
 
+    <div x-show="editModal" class="fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto p-4" x-cloak>
+        <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" @click="editModal = false"></div>
+        <div class="relative w-full max-w-4xl modal-glass rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="px-8 py-5 border-b border-slate-200 flex justify-between items-center bg-white/50">
+                <h2 class="text-xl font-bold text-[#395796]">Edit Clinic: <span x-text="editData.name" class="text-[#E97F95]"></span></h2>
+                <button @click="editModal = false" class="text-slate-400 hover:text-[#E97F95] transition-colors"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <div class="p-8 overflow-y-auto custom-scrollbar">
+                <form :id="'editClinicForm' + editData.id" :action="'/superadmin/clinics/' + editData.id" method="POST" class="space-y-6">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">Clinic Name</label><input type="text" name="name" x-model="editData.name" class="input-field"></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">Login Email <span class="text-red-500">*</span></label><input type="email" name="email" x-model="editData.email" class="input-field"></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">AMC Status</label><select name="is_active" x-model="editData.is_active" class="input-field"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">Max Branches</label><input type="number" name="max_branches" x-model="editData.max_branches" class="input-field"></div>
+                        <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Address Line 1</label><input type="text" name="address_line_1" x-model="editData.address_line_1" class="input-field"></div>
+                        <div class="md:col-span-2"><label class="block text-xs font-semibold text-slate-600 mb-1">Address Line 2</label><input type="text" name="address_line_2" x-model="editData.address_line_2" class="input-field"></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">Country</label><select name="country" x-model="editData.country" class="input-field"><option value="US">US</option><option value="UK">UK</option><option value="IN">IN</option></select></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">State</label><input type="text" name="state" x-model="editData.state" class="input-field"></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">ZIP</label><input type="text" name="zip_code" x-model="editData.zip_code" class="input-field"></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">Expiry Date</label><input type="date" name="exp_date" x-model="editData.exp_date" class="input-field text-slate-500"></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">1st Warning</label><input type="date" name="first_warning_date" x-model="editData.first_warning_date" class="input-field text-slate-500"></div>
+                        <div><label class="block text-xs font-semibold text-slate-600 mb-1">2nd Warning</label><input type="date" name="second_warning_date" x-model="editData.second_warning_date" class="input-field text-slate-500"></div>
+                    </div>
+
+                    <div class="mt-6">
+                        <div class="flex justify-between items-center border-b border-slate-200/60 pb-2 mb-4"><h3 class="text-sm font-bold text-[#395796] uppercase tracking-widest">Update Contacts</h3><button type="button" @click="addEditContact()" class="text-xs font-bold text-[#395796] bg-[#395796]/10 px-3 py-1.5 rounded-lg">+ Add</button></div>
+                        <div class="space-y-3">
+                            <template x-for="(contact, index) in editContacts" :key="contact.id">
+                                <div class="flex gap-3 items-end bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    <div class="flex-1"><label class="block text-[10px] font-bold text-slate-500 uppercase">Name</label><input type="text" :name="'contacts['+index+'][name]'" x-model="contact.name" class="input-field py-2 mt-1"></div>
+                                    <div class="w-1/4"><label class="block text-[10px] font-bold text-slate-500 uppercase">Position</label><input type="text" :name="'contacts['+index+'][position]'" x-model="contact.position" class="input-field py-2 mt-1"></div>
+                                    <div class="flex-1"><label class="block text-[10px] font-bold text-slate-500 uppercase">Phone No.</label><input type="text" :name="'contacts['+index+'][phone]'" x-model="contact.phone" class="input-field py-2 mt-1"></div>
+                                    <button type="button" @click="removeEditContact(index)" x-show="editContacts.length > 1" class="p-2 mb-0.5 text-red-400 hover:text-red-600 transition-colors border border-transparent hover:border-red-100"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="px-8 py-5 border-t border-slate-200 bg-slate-50/80 flex justify-end space-x-4">
+                <button type="button" @click="editModal = false" class="px-6 py-2.5 bg-white text-slate-600 font-bold text-sm rounded-xl border border-slate-300 shadow-sm">Cancel</button>
+                <button type="submit" :form="'editClinicForm' + editData.id" class="px-8 py-2.5 bg-[#395796] text-white font-bold text-sm rounded-xl hover:bg-[#2a3d66] shadow-lg shadow-[#395796]/30">Update Clinic</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('clinicForm', () => ({
-                openModal: false,
-                hasBranch: false,
-                clinicContacts: [{ id: 1 }],
+                openModal: false, 
+                editModal: false,
+                hasBranch: false, 
+                editData: {},
+                editContacts: [],
+                clinicContacts: [{ id: 1 }], 
                 branchContacts: [{ id: 1 }],
                 
-                addContact(type) {
-                    if (type === 'clinic') {
-                        this.clinicContacts.push({ id: Date.now() });
-                    } else {
-                        this.branchContacts.push({ id: Date.now() });
-                    }
+                addContact(type) { 
+                    type === 'clinic' ? this.clinicContacts.push({ id: Date.now() }) : this.branchContacts.push({ id: Date.now() }); 
                 },
-                removeContact(type, index) {
-                    if (type === 'clinic') {
-                        this.clinicContacts.splice(index, 1);
-                    } else {
-                        this.branchContacts.splice(index, 1);
-                    }
+                
+                removeContact(type, index) { 
+                    type === 'clinic' ? this.clinicContacts.splice(index, 1) : this.branchContacts.splice(index, 1); 
+                },
+
+                openEditModal(clinic, contacts) {
+                    this.editData = JSON.parse(JSON.stringify(clinic));
+                    this.editContacts = contacts.length > 0 ? JSON.parse(JSON.stringify(contacts)) : [{ id: 1, name: '', position: '', phone: '' }];
+                    this.editModal = true;
+                },
+
+                addEditContact() {
+                    this.editContacts.push({ id: Date.now(), name: '', position: '', phone: '' });
+                },
+
+                removeEditContact(index) {
+                    this.editContacts.splice(index, 1);
                 }
             }))
         })
