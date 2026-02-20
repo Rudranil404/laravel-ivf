@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
-use Mpdf\Laravel\Facade as PDF;
+// the laravel-mpdf package exposes a PDF facade via auto-discovery
+// alias "PDF" (Mccarlosen\LaravelMpdf\Facades\LaravelMpdf)
+use PDF;
 
 
     
